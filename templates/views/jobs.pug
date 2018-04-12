@@ -1,0 +1,61 @@
+extends ../layouts/page-two-column-reversed
+
+mixin form-field(field,name,required)
+	label.form-field(class=required?'required':null)
+		span.form-label=name
+		block
+			
+block title
+	h1 Jobs
+
+block crumbs
+	ul
+		li: a(href="/") Home
+		li Jobs
+
+block contents
+	each category in data.jobCategories
+		section.job-category(id=category.key)
+			if category.image.exists
+				h1.title.with-pic(style=`background-image:url(${category._.image.src({quality:"auto:good"})})`)=category.name
+			else
+				h1.title=category.name
+			p=category.description
+			h2() Get in touch with us
+			form
+				+form-field('name','Your Name', true)
+					input(type="text")
+				+form-field('email','Your Email', true)
+					input(type="text")
+				+form-field('contact','Phone / Mobile Phone')
+					input(type="text")
+				+form-field('job', 'Job')
+					select
+						option(value='') Select..
+						each job in category.jobs
+							option(value=job.key)=job.name
+				+form-field('resume','Upload Resume')
+					input(type="file")
+				.form-actions
+					button(type="submit") Apply
+block sidebar
+	ul.job-gallery-list-group
+		each category in data.jobCategories
+			li: a.job-trigger(href="#"+category.key)=category.name						
+block js
+	script.
+		(function(){
+			let scroll = 0;
+			const triggers = jzmn(".job-trigger");
+			triggers.on("click",function(){
+				scroll = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+			})
+			function hashDetermine() {
+				triggers.ancestor().removeClass("selected");
+				jzmn("[href='"+ window.location.hash +"']").ancestor().addClass("selected");
+				window.scrollTo(0, scroll);
+			}
+			window.addEventListener("hashchange",hashDetermine);
+			hashDetermine();
+		})();
+					

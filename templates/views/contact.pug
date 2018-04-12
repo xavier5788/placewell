@@ -1,0 +1,136 @@
+extends ../layouts/page-one-column
+
+mixin form-field(field,name,required)
+	label.form-field(class=validationErrors[field] ? 'has-error': null,class=required?'required':null)
+		span.form-label=name
+		block
+
+block title
+	h1 Contact Us
+block crumbs
+	ul
+		li: a(href="/") Home
+		li Contact Us
+block contents
+		iframe(
+			style="width:100%;"
+			width=400
+			height=400
+			src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCnCuhvHEH1OFAdYtrXIAdBFhMUauoGvEU&q=Placewell"
+			frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+		) 
+		section.columns
+			section#contact-form
+				h3 Get in touch with us
+				if enquirySubmitted
+					p Thank you for your message.
+				else
+					form(method='post')
+						input(type='hidden', name='action', value='contact')
+						+form-field('name','Your Name',true)
+							input(type='text', name='name.full', value=formData['name.full'], required).form-control
+						+form-field('email','Your Email',true)
+							input(type='email', name='email', value=formData.email, required).form-control
+						+form-field('phone', 'Phone / Mobile Phone')
+							input(type='text', name='phone', value=formData.phone).form-control
+						+form-field('subject','Subject')
+							input(type='text', name='subject' value=formData.subject).form-control
+						+form-field('message','Message',true)
+							textarea(name='message', placeholder='Leave us a message...' rows=4).form-control= formData.message
+						.form-actions
+							button(type='submit').btn.btn-primary Send
+			section#contact-details
+				-
+					var contacts = [{
+						name: "CDO ",
+						address: "4/F Room 401, TTK Building A. Velez St., Cagayan de Oro City ",
+						contactPerson: "Ms. Miraluna Ponte",
+						contactNumber: "09175315372, 09989632011"
+					}, 
+					{
+						name: "Cebu",
+						address: "3rd Floor Room 305 CDC Bldg. II Colon St., Cor. Jakosalem St., Cebu City",
+						contactPerson: "Ms. Febriene Jenny Arisgado",
+						contactNumber: "09177261770, 09399371560"
+					}, 
+					{
+						name: "Davao",
+						address: "Unit 207-D, 2nd Floor Bajada Plaza Bldg. J.P. Laurel Avenue, Davao City                             ",
+						contactPerson: "Mr. Jim Seguerra",
+						contactNumber: "09178277512, 09998848236"
+					}, 
+					{
+						name: "Iloilo",
+						address: "3rd Floor Room 301 Jesena Bldg., Jalandoni St., Iloilo City",
+						contactPerson: "Ms. Elena Patricio",
+						contactNumber: "09176341140, 09088860915"
+					}, 
+					{
+						name: "Pampanga",
+						address: "Room 5, 2/F, F.F. Paras Bldg. cor. Jose Abad Santos Ave. Dolores, San Fernando City,  Pampanga",
+						contactPerson: "Ms. Lina Beltran",
+						contactNumber: "09178278440, 09399371964"
+					}, 
+					{
+						name: "Bacolod",
+						address: "2nd Floor Door No. 4, Centroplex Mall Gonzaga-Locsin St. Bacolod City",
+						contactPerson: "Ms. Joanna Salilig",
+						contactNumber: "09178013561, 09989600472"
+					}, 
+					{
+						name: "Butuan",
+						address: "T. Calo St. Infront of SJIT Annex, Butuan City",
+						contactPerson: "Mr. Pepepaul Galenzoga",
+						contactNumber: "09178277513, 09989600472 "
+					},
+					{
+						name: "Tacurong",
+						address: "4th Floor Barrido-Salvador Medical Clinic, Along National Highway, Poblacion, Tacurong City, Sultan Kudarat",
+						contactPerson: "Ms Jawani Bagayman",
+						contactNumber: "09178515639, 09989626917"
+					}]
+				h3 Placewell International Services Corporation
+				h4 Principal Office
+				address.
+					2nd Flr., Suite 217 Aurora Plaza Bldg #[br]
+					Arquiza St. cor J. Bocobo St., Ermita Manila
+					
+				table.address-details
+					tr
+						td Phone
+						td (632) 526-7317, (632) 526-4838, (632) 521-5067
+					tr
+						td Fax No.
+						td (632) 521-5059
+					tr
+						td Email
+						td manila@placewellinternational.com 
+				h4 Other Locations
+				ul.list-group
+					each location in contacts 
+						li 
+							span.toggle=location.name
+							table.address-details.toggle-target
+								tr
+									td Address
+									td=location.address
+								tr
+									td Contact&nbsp;Person
+									td=location.contactPerson
+								tr
+									td Contact&nbsp;Number
+									td=location.contactNumber
+								
+block js
+	script.
+		jzmn(".toggle-target").each(function(el){
+			console.log("hi"+el)
+			var jel = jzmn.hideable(el,true);
+			jzmn(el.previousElementSibling).on("click",function(event){
+				console.log("hello")
+				jel.isOpen() ? jel.close() : jel.open();
+			});
+		})
+		/*jzmn(".toggle").on("click",function(evt){
+				jzmn(this.nextElementSibling).toggleClass("closed")
+		})*/

@@ -1,0 +1,49 @@
+extends ../layouts/page-two-column-reversed
+
+block title
+	h1 Clients
+	
+block crumbs
+	ul
+		li: a(href="/") Home
+		li Clients
+
+prepend main
+	section.page-contents
+		section.page-contents-main
+			p In close to 40 years in the overseas recruitment business, PISCO has developed, maintained, and nurtured a marquee list of overseas foreign recruitment agency-partners, employers, and principals that have enjoyed and profited from PISCO’s excellent services in human resources recruitment, mobilization, and deployment.
+			p PISCO has developed long-term relationships with many of these foreign recruitment agency-partners, employers, and principals which are spread across a wide range of industries—construction, agriculture, oil and gas, banking and finance, administration and management, sales, healthcare and homecare, land transport and aviation, etc. 
+
+block contents
+	each location in data.locations.filter(loc=>loc.clients.length>0)
+		ul.location(id=location.key)
+				each client in location.clients
+					if (client.image.exists)
+						li
+							img(src=client._.image.src({quality:"auto:good"}))
+							span= client.name
+					else
+						li.client
+							span= client.name
+block sidebar
+	ul.location-gallery-list
+		each location in data.locations
+			li: a.location-trigger(href="#"+location.key)=location.name
+block js
+	script.
+		(function(){
+			let scroll = 0;
+			const triggers = jzmn(".location-trigger");
+			
+			triggers.on("click",function(){
+				scroll = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+			})
+			
+			function hashDetermine() {
+				triggers.ancestor().removeClass("selected");
+				jzmn("[href='"+ window.location.hash +"']").ancestor().addClass("selected");
+				window.scrollTo(0, scroll);
+			}
+			window.addEventListener("hashchange",hashDetermine);
+			hashDetermine();
+		})();

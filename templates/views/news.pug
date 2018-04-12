@@ -1,0 +1,74 @@
+extends ../layouts/page-two-column
+
+mixin post(post)
+	.post(data-ks-editable=editable(user, { list: 'Post', id: post.id }))
+		if post.image.exists
+			a(href='/news/post/' + post.slug)
+				img(src=post._.image.src({quality:'auto:good'})).post-image-heading
+		header.post-header
+			h2.post-title: a(href='/news/post/' + post.slug)= post.title
+			p.post-details
+				if post.author
+					span.post-details-author By #{post.author.name.first}
+				if post.publishedDate
+					span.post-details-date=post._.publishedDate.format('MMMM Do, YYYY')
+		section.post-body
+			p!= post.content.brief
+			if post.content.extended
+				p.read-more: a(href='/news/post/' + post.slug) Read more
+		if post.categories && post.categories.length
+			footer.post-footer
+				ul.post-categories
+					each category in post.categories
+						li.category: a(href="/news/" + category.key)=category.name
+
+block title
+	h1= data.category ? data.category.name : 'Bulletin'
+
+block crumbs
+	ul
+		li
+			a(href="/") Home
+		li
+			a(href="/news") Bulletin
+		if data.category
+			li
+				a(href=`/news/${data.category.id}`) #{data.category.name}
+
+block contents
+	if filters.category && !data.category
+		h3.text-muted Invalid Category.
+	else
+		if data.posts.results.length
+			.news
+				each post in data.posts.results
+					+post(post)
+			
+			if data.posts.totalPages > 1
+				ul.pagination
+					if data.posts.previous
+						li: a(href='?page=' + data.posts.previous): span.glyphicon.glyphicon-chevron-left
+					else
+						li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
+					each p, i in data.posts.pages
+						li(class=data.posts.currentPage == p ? 'active' : null)
+							a(href='?page=' + (p == '...' ? (i ? data.posts.totalPages : 1) : p ))= p
+					if data.posts.next
+						li: a(href='?page=' + data.posts.next): span.glyphicon.glyphicon-chevron-right
+					else
+						li.disabled: a(href='?page=' + data.posts.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
+		else
+			if data.category
+				h3.text-muted There are no posts in the category “#{data.category.name}”.
+			else
+				h3.text-muted There are no posts yet.
+
+block sidebar		
+	if data.categories.length
+			h2 Categories
+			ul.list-group
+				li
+					a(href='/news', class=!data.category ? 'active-category' : false).list-group-item All Posts
+				each cat in data.categories
+					li
+						a(href='/news/' + cat.key, class=data.category && data.category.id == cat.id ? 'active-category' : false).list-group-item= cat.name

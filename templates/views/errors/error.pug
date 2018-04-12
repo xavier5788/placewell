@@ -1,0 +1,15 @@
+extends ../../layouts/default
+
+block main
+	section.hero
+		.hero-contents
+			h1: block error-title
+			a(href="/") Return To Home Page →
+
+	section.body-copy
+		block error-body
+		a(href="/") Return To Home Page →
+			
+block site-footer
+	footer#footer.site-footer
+		section.copyright © Copyright 2014 Placewell International Services Corporation

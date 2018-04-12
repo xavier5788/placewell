@@ -1,0 +1,37 @@
+extends ./news
+
+block title
+	h1= data.post.title
+	
+block crumbs
+		ul
+			li: a(href="/") Home
+			li: a(href="/news") News
+			li=data.post.title
+
+block contents
+		article
+			if !data.post
+				h2 Invalid Post.
+			else
+				- var post = data.post;
+				if post.image.exists
+					a(href='/news/post/' + post.slug)
+						img(src=post._.image.src({quality:'auto:good'})).post-image-heading
+				header.post-header
+					h2.post-title: a(href='/news/post/' + post.slug)= post.title
+					p.post-details
+						if post.author
+							span.post-details-author By #{post.author.name.first}
+						if post.publishedDate
+							span.post-details-date=post._.publishedDate.format('MMMM Do, YYYY')
+				section.post-body
+					p!= post.content.full
+					
+				footer.post-footer
+					if post.categories && post.categories.length
+						ul.post-categories
+							each category in post.categories
+								li.category: a(href="/news/" + category.key)=category.name
+				
+		

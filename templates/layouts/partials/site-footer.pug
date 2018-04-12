@@ -1,0 +1,53 @@
+footer#footer.site-footer
+	if jobCategories.length > 0
+		section.jobs-list
+			- var i = 0;
+			ul.jobs
+				while jobCategories[i] != null
+					- var jobs = [ jobCategories[i], jobCategories[i+1] ];
+					- i+=2
+					li.job
+						each job in jobs
+							a(href=`/jobs#${job.key}`)
+								if job.image.exists
+									img(src=job._.image.src({quality:"auto:good"}))
+								.job-card
+									h1=job.name
+									.learn-more Learn more
+			a.button(href="/jobs#oil-and-gas") View more jobs
+	if stories.length > 0
+		section.stories-list
+			h1.small-heading Successful Stories			
+			ul.stories
+				each quote in stories
+					li.story
+						blockquote.quote=quote.quote
+						cite=quote.source
+	if clients.length > 0
+		section.clients
+			h1.small-heading Our Clients
+			ul.client-list
+				each client in clients
+					if (client.image.exists)
+						li.client(style=`background-image:url(${client.image.url});`)
+					else
+						li.client
+	section.accreditation
+		h1 Accreditation
+		img(src="/images/accreditation.png")
+	section.copyright © Copyright 2014 Placewell International Services Corporation
+	
+append block js
+	script.
+		(function(){
+			var i = 0;
+			window.setInterval(function(){
+				if (!document.hasFocus()) { return; }
+				
+				var stuff = jzmn(".job:not(:hover)");
+				var length = stuff.value.length;
+				jzmn(stuff.value[i]).toggleClass("slid");
+				i = ( i + 7 ) % length;
+			},5000);
+		})();
+		

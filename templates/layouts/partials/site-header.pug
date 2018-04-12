@@ -1,0 +1,26 @@
+nav#employees.employee-navigation
+	ul.navigation-bar.navigation-list
+		li.number 632 526 7317
+		if user
+			if user.canAccessKeystone
+				li: a(href='/keystone') Dashboard
+			li: a(href='/keystone/signout') Sign Out
+		else
+			li: a(href='/keystone/signin') Employee's Login
+header#header.site-header-container
+	.site-header.navigation-bar
+		a.site-logo(href="/")
+			img(src="/images/logo.png")
+		ul.navigation-list
+			each link in navLinks
+				li(class=(section == link.key ? 'active' : null))
+					if (link.href)
+						a.link-label(href=link.href)= link.label
+					else
+						span.link-label=link.label
+					if link.subLinks
+						ul.sub-navigation.list-group
+							each sublink in link.subLinks
+								li: a(href=sublink.href)=sublink.label
+						
+	//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
