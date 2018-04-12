@@ -1,0 +1,39 @@
+.form-field {
+	display:block;
+
+	input, textarea, select {
+		font:inherit;
+		display:block;
+		width:100%;
+		padding:0.5em;
+		background-color:@color-pl10;
+		border:1px solid @color-pl20;
+	}
+
+	select {
+		-webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+	 border-radius:0;
+	}
+
+	textarea {
+		max-width:100%;
+		min-width:100%;
+		resize:vertical;
+	}
+
+	&.required .form-label::after {
+		content: " *";
+		color:@color-rein;
+	}
+}
+.form-label {
+	+ input, + textarea, + select {
+			margin-top:0;
+	}
+}
+
+.form-actions button {
+	float:left;
+}

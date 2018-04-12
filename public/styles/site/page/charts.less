@@ -1,0 +1,78 @@
+@chartist-colors: #d70206, #f05b4f, #f4c63d, #d17905, #453d3f, #59922b, #0544d3, #6b0392, #f05b4f, #dda458, #eacf7d, #86797d, #b2c326, #6188e2, #a748ca;
+
+.charts-container {
+	background-color:@color-pl10;
+}
+.charts {
+	.constrained;
+	.flex-container;
+	.flex-collapse;
+
+	> * {
+		flex: 1 1 0;
+		margin:3em 0;
+		width:100%;
+	}
+}
+.chart-container {
+	*+* { margin:0; }
+
+	.ct-bar {
+		stroke-width:2em;
+	}
+
+	@media (max-width:@collapse-width) {
+		margin-bottom:1em;
+		+ div {
+			margin-top:0;
+		}
+	}
+}
+.chart-heading {
+	text-align:right;
+	position: relative;
+	z-index: 1;
+	font-family: @font-headings;
+	font-size:3em;
+	line-height:0.5;
+
+	.number {
+		font-weight: @font-headings-bold;
+		color: @color-pg10;
+	}
+	.label {
+		font-size:0.5em;
+		font-style: italic;
+		font-family: @font-body;
+	}
+}
+
+.ct-legend {
+	position: absolute;
+	z-index: 1;
+	font-size: 0.75em;
+	> li {
+		display: block;
+		margin:0;
+		position: relative;
+		padding-left:1.25em;
+	}
+
+	.for(@chartist-colors,{
+		@j: @i - 1;
+		.ct-series-@{j}:before {
+			content:"";
+			position:absolute;
+			width:1em;
+			height:1em;
+			left:0;
+			top:0;
+			background-color:@value;
+		}
+	});
+}
+
+.ct-vertical +.ct-vertical,
+.ct-horizontal + .ct-horizontal {
+	display:none;
+}

@@ -1,0 +1,85 @@
+.hero {
+  padding-top:12em;
+  padding-bottom:8em;
+  color:white;
+  background-color:@color-xvdg;
+  text-align:center;
+  background-image:
+    url("/images/hero.jpg")
+  ;
+  background-size:cover;
+  background-position: center;
+  //background-blend-mode: soft-light;
+  overflow:hidden;
+
+  h1 {
+    .large-heading;
+	}
+	> * {
+    background: fade(darken(@color-xvdg,10),50);
+    box-shadow:0 0 5em 5em fade(darken(@color-xvdg,10),50);
+  }
+  a { .unstyled-link; max-width:20em; display:inline-block;}
+
+}
+.hero-contents {
+  .constrained-centered;
+}
+.body-copy {
+  .constrained-centered;
+  margin:4em auto;
+}
+.company-profile {
+  .constrained;
+  .flex-container;
+  .flex-collapse(1000px);
+  padding:2em 0;
+  .button {
+    margin-right:0;
+  }
+  @media (max-width:1000px) {
+     .profile {
+       width:100%;
+       text-align:center;
+     }
+     .button {
+       margin-right:auto;
+     }
+  }
+}
+
+.message-list {
+  background-color: @color-pg30;
+  color:white;
+  padding-bottom:4em;
+	margin-top:0;
+}
+.messages {
+  .constrained;
+  .flex-container;
+  .flex-collapse;
+  justify-content: space-between;
+
+  h1 { font-size:1.5em; }
+  a { .unstyled-link;font-weight:bold; }
+}
+
+.message {
+  margin-top:4em;
+  flex: 0 1 45%;
+}
+
+.columns {
+	margin: -1*2*@base-margin;
+	margin-top:@base-margin;
+	.flex-container;
+	.flex-collapse;
+	align-items: stretch;
+	> *{
+		flex: 1 1 0;
+		margin: 2*@base-margin;
+		width: ~"calc(100% - 4*@{base-margin})";
+	}
+}
+
+@import "charts.less";

@@ -1,0 +1,11 @@
+//https://github.com/edkolos/kolos.mixins/blob/master/for.less/
+.for (@list, @code) {
+	& {
+		.loop(@i:1) when (@i =< length(@list)) {
+			@value: extract(@list, @i);
+			@code();
+			.loop(@i + 1);
+		}
+		.loop();
+	}
+}

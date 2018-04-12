@@ -1,0 +1,25 @@
+@import "mixin/container.less";
+@import "mixin/targeting.less";
+
+*+* {
+	margin-top: 1em;
+}
+
+body {
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  > * {
+    width:100%;
+  }
+}
+
+@import "section/site-header.less";
+@import "section/site-footer.less";
+@import "section/site-content.less";
+
+@import "page/home.less";
+@import "page/job-gallery.less";
+@import "page/client-gallery.less";
+@import "page/contacts.less";
+@import "page/news.less";

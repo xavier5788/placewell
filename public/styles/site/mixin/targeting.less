@@ -1,0 +1,6 @@
+.hash-target(@display: block) {
+	display:none;
+	&:target, &.default-displayed {
+		display: @display;
+	}
+}

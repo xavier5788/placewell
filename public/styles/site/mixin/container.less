@@ -1,0 +1,67 @@
+@constrained-width: 70rem;
+@collapse-width: 40rem;
+@base-margin: 1rem;
+
+.constrained {
+  .constrained();
+}
+
+.constrained-centered {
+  .constrained;
+  text-align:center;
+}
+
+.constrained(@width: @constrained-width; @margin: 2*@base-margin) {
+  max-width: @width;
+  margin-left:auto;
+  margin-right:auto;
+
+  @media (max-width: @width) {
+    margin-left: @margin;
+    margin-right: @margin;
+  }
+}
+
+.flex-container() {
+  display:flex;
+  align-items: center;
+}
+
+.flex-collapse(@collapse: @collapse-width) {
+  @media (max-width: @collapse) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.flex-list(@gutter: @base-margin) {
+  .flex-container;
+	overflow-x:auto;
+
+	&::-webkit-scrollbar {
+		height:5px;
+	}
+	&::-webkit-scrollbar-track {
+	    background: @color-pl10;
+	}
+	&::-webkit-scrollbar-thumb {
+	    background: @color-pg20;
+	}
+
+  > li {
+    display:block;
+    + li {
+			margin-top:0;
+      margin-left: @gutter;
+    }
+  }
+}
+
+.flex-list-collapsing(@gutter: @base-margin, @collapse: @collapse-width, @collapsed-gutter: @base-margin) {
+  .flex-list(@gutter);
+  .flex-collapse(@collapse);
+
+  @media (max-width:@collapse) {
+      > li + li { margin-left:0; margin-top: @collapsed-gutter; }
+  }
+}
